@@ -7,7 +7,7 @@ USE_IRRKLANG=${2:-""}
 TARGET_OS=${TARGET_OS:-$TRAVIS_OS_NAME}
 
 #Download default font to be bundled
-curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://raw.githubusercontent.com/ProjectIgnis/Distribution/master/fonts/NotoSansJP-Regular.otf
+curl --ssl-no-revoke --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://raw.githubusercontent.com/ProjectIgnis/Distribution/master/fonts/NotoSansJP-Regular.otf
 
 if [[ ! -z $USE_IRRKLANG ]]; then
     curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name http://www.ambiera.at/downloads/irrKlang-64bit-1.6.0.zip
@@ -53,13 +53,13 @@ if [[ "$TARGET_OS" == "windows" ]]; then
     fi
 
 	# install UPX
-	curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip
+	curl --ssl-no-revoke --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip
     unzip -uo upx-3.96-win64.zip > /dev/null
     mv upx-3.96-win64/upx.exe upx.exe
     rm -rf upx-3.96-win64
     rm upx-3.96-win64.zip
 
-    curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/edo9300/irrlicht1-8-4/archive/1.9-custom.zip
+    curl --ssl-no-revoke --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/edo9300/irrlicht1-8-4/archive/1.9-custom.zip
     echo Extracting irrlicht... this may take some time.
     unzip -uo irrlicht1-8-4-1.9-custom.zip > /dev/null
     mv irrlicht1-8-4-1.9-custom/include irrlicht/include
