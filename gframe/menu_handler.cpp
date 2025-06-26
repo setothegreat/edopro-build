@@ -114,6 +114,7 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 		}
 		if(mainGame->wFileSave->isVisible() && id != BUTTON_FILE_SAVE && id != BUTTON_FILE_CANCEL) {
 			mainGame->wFileSave->getParent()->bringToFront(mainGame->wFileSave);
+			//GUIUtils::ClickButton(mainGame->device, mainGame->btnFileSaveYes);
 			break;
 		}
 		switch(event.GUIEvent.EventType) {
@@ -181,6 +182,36 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 				mainGame->btnJoinCancel->setEnabled(true);
 				mainGame->HideElement(mainGame->wMainMenu);
 				mainGame->ShowElement(mainGame->wLanWindow);
+				
+				DuelClient::is_local_host = false;
+				if (mainGame->isHostingOnline) {
+					ServerLobby::JoinServer(true);
+				}
+				else {
+					uint16_t host_port;
+					try {
+						host_port = static_cast<uint16_t>(std::stoul(mainGame->ebHostPort->getText()));
+					}
+					catch (...) {
+						break;
+					}
+					gGameConfig->gamename = mainGame->ebServerName->getText();
+					gGameConfig->serverport = mainGame->ebHostPort->getText();
+					mainGame->gBot.Refresh(gGameConfig->filterBot * (mainGame->cbDuelRule->getSelected() + 1), gGameConfig->lastBot);
+					if (!NetServer::StartServer(host_port))
+						break;
+
+					const auto ip = 0x100007F; //127.0.0.1 in network byte order
+					if (!DuelClient::StartClient({ &ip, epro::Address::INET }, host_port)) {
+						NetServer::StopServer();
+						break;
+					}
+					DuelClient::is_local_host = true;
+					mainGame->btnHostConfirm->setEnabled(false);
+					mainGame->btnHostCancel->setEnabled(false);
+					mainGame->HideElement(mainGame->wLanWindow);
+				}
+
 				break;
 			}
 			case BUTTON_JOIN_HOST: {

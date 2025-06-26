@@ -46,6 +46,7 @@ void Replay::WriteHeader(ExtendedReplayHeader& header) {
 	Write<ExtendedReplayHeader>(header, true);
 }
 void Replay::WriteData(const void* data, size_t length, bool flush) {
+	return;
 	if(!is_recording)
 		return;
 	if(!length)
@@ -61,6 +62,7 @@ void Replay::Flush() {
 	fflush(fp);
 }
 void Replay::EndRecord(size_t size) {
+	return;
 	if(!is_recording)
 		return;
 	if(fp != nullptr) {

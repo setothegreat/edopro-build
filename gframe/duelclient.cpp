@@ -264,6 +264,7 @@ catch(...) { what = def; }
 				BufferIO::EncodeUTF8(mainGame->ebHostNotes->getText(), cscg.notes, 200);
 			}
 			SendPacketToServer(CTOS_CREATE_GAME, cscg);
+			SendPacketToServer(CTOS_HS_TOOBSERVER);
 		} else {
 			CTOS_JoinGame csjg;
 			if (temp_ver)
@@ -1152,6 +1153,10 @@ void DuelClient::HandleSTOCPacketLanAsync(const std::vector<uint8_t>& data) {
 			if(pos == selftype) {
 				mainGame->btnHostPrepReady->setVisible(false);
 				mainGame->btnHostPrepNotReady->setVisible(true);
+			}
+			if (is_host && CheckReady())
+			{
+				DuelClient::SendPacketToServer(CTOS_HS_START);
 			}
 		} else if(state == PLAYERCHANGE_NOTREADY) {
 			mainGame->chkHostPrepReady[pos]->setChecked(false);
@@ -4634,10 +4639,13 @@ void DuelClient::ReplayPrompt(bool local_stream) {
 	auto now = std::time(nullptr);
 	mainGame->PopupSaveWindow(gDataManager->GetSysString(1340), epro::format(L"{:%Y-%m-%d %H-%M-%S}", fmt::localtime(now)), gDataManager->GetSysString(1342));
 	mainGame->replaySignal.Wait(lock);
-	if(mainGame->saveReplay || !is_local_host) {
+	//last_replay.SaveReplay(Utils::ToPathString(mainGame->ebFileSaveName->getText()));
+
+	//last_replay.SaveReplay(Utils::ToPathString(epro::format(L"{:%Y-%m-%d %H-%M-%S}", fmt::localtime(now))));
+	/*if(mainGame->saveReplay || !is_local_host) {
 		if(mainGame->saveReplay)
 			last_replay.SaveReplay(Utils::ToPathString(mainGame->ebFileSaveName->getText()));
 		else last_replay.SaveReplay(EPRO_TEXT("_LastReplay"));
-	}
+	}*/
 }
 }

@@ -46,3 +46,4 @@ premake5.exe
 bundled_font.cpp
 NotoSansJP-Regular.otf
 vcpkg/
+vcpkg_old/

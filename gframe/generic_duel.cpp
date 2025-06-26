@@ -1247,17 +1247,17 @@ void GenericDuel::AfterParsing(const CoreUtils::Packet& packet, [[maybe_unused]]
 #undef DATA
 int GenericDuel::Analyze(CoreUtils::Packet packet) {
 	int return_value = 0;
-	replay_stream.clear();
-	bool record = true;
+	//replay_stream.clear();
+	bool record = false;
 	bool record_last = false;
 	auto packetcpy = packet;
 	BeforeParsing(packet, return_value, record, record_last);
 	Sending(packet, return_value, record, record_last);
 	AfterParsing(packet, return_value, record, record_last);
-	if(record)
-		replay_stream.insert(record_last ? replay_stream.end() : replay_stream.begin(), std::move(packetcpy));
-	new_replay.WriteStream(replay_stream);
-	new_replay.Flush();
+	//if(record)
+	//	replay_stream.insert(record_last ? replay_stream.end() : replay_stream.begin(), std::move(packetcpy));
+	//new_replay.WriteStream(replay_stream);
+	//new_replay.Flush();
 	return return_value;
 }
 void GenericDuel::GetResponse(DuelPlayer* dp, void* pdata, uint32_t len) {
@@ -1277,6 +1277,13 @@ void GenericDuel::GetResponse(DuelPlayer* dp, void* pdata, uint32_t len) {
 void GenericDuel::EndDuel() {
 	if(!pduel)
 		return;
+
+// Remove this to enable saving replay
+	OCG_DestroyDuel(pduel);
+	pduel = nullptr;
+	return
+
+
 	last_replay.EndRecord(0x1000);
 
 	//in case of remaining packets, e.g. MSG_WIN

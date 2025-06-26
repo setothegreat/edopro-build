@@ -1988,9 +1988,9 @@ bool Game::MainLoop() {
 	bool last_resize = false;
 	irr::core::dimension2d<irr::u32> prev_window_size;
 #endif
-	const irr::ITimer* timer = device->getTimer();
+	//const irr::ITimer* timer = device->getTimer();
 	uint32_t cur_time = 0;
-	uint32_t prev_time = timer->getRealTime();
+	uint32_t prev_time = 0;// timer->getRealTime();
 	float frame_counter = 0.0f;
 	int fps = 0;
 	bool was_connected = false;
@@ -2017,7 +2017,7 @@ bool Game::MainLoop() {
 		bool currentlyFullscreen = false;
 		GUIUtils::ToggleFullscreen(device, currentlyFullscreen);
 	}
-	while(!restart && device->run()) {
+	while(!restart){// && device->run()) {
 		DispatchQueue();
 		if(should_reload_skin) {
 			should_reload_skin = false;
@@ -2036,16 +2036,16 @@ bool Game::MainLoop() {
 			LoadCoreFromRepos();
 		}
 #endif //YGOPRO_BUILD_DLL
-		for(auto& repo : gRepoManager->GetRepoStatus()) {
+		/*for (auto& repo : gRepoManager->GetRepoStatus()) {
 			repoInfoGui[repo.first].progress1->setProgress(repo.second);
 			repoInfoGui[repo.first].progress2->setProgress(repo.second);
-		}
-		gSoundManager->Tick();
+		}*/
+		//gSoundManager->Tick();
 		fps++;
-		auto now = timer->getRealTime();
-		delta_time = now - prev_time;
-		prev_time = now;
-		cur_time += delta_time;
+		//auto now = timer->getRealTime();
+		//delta_time = now - prev_time;
+		//prev_time = now;
+		//cur_time += delta_time;
 		gJWrapper->ProcessEvents();
 		bool resized = false;
 		auto size = driver->getScreenSize();
@@ -2088,7 +2088,7 @@ bool Game::MainLoop() {
 		}
 		atkframe += 0.1f * (float)delta_time * 60.0f / 1000.0f;
 		atkdy = (float)sin(atkframe);
-		driver->beginScene(true, true, irr::video::SColor(0, 0, 0, 0));
+		//driver->beginScene(true, true, irr::video::SColor(0, 0, 0, 0));
 		gMutex.lock();
 		if(dInfo.isInDuel) {
 			if(dInfo.isReplay)
@@ -2158,18 +2158,18 @@ bool Game::MainLoop() {
 #if !EDOPRO_ANDROID
 		// text width is actual size, other pixels are relative to the assumed 1024x640
 		// so we recompensate for the scale factor and window resizing
-		int fpsCounterWidth = fpsCounter->getTextWidth() / (dpi_scale * window_scale.X);
+		//int fpsCounterWidth = fpsCounter->getTextWidth() / (dpi_scale * window_scale.X);
 #else
-		int fpsCounterWidth = fpsCounter->getTextWidth() / (dpi_scale * window_scale.X) + 20; // corner may be curved
+		//int fpsCounterWidth = fpsCounter->getTextWidth() / (dpi_scale * window_scale.X) + 20; // corner may be curved
 #endif
-		if (is_building || is_siding) {
+		/*if (is_building || is_siding) {
 			fpsCounter->setRelativePosition(Resize(205, CARD_IMG_HEIGHT + 1, 300, CARD_IMG_HEIGHT + 21));
 		} else if (wChat->isVisible()) { // Move it above the chat box
 			fpsCounter->setRelativePosition(Resize(1020 - fpsCounterWidth, 595, 1020, 615));
 		} else { // bottom right of window with a little padding
 			fpsCounter->setRelativePosition(Resize(1024 - fpsCounterWidth, 620, 1024, 640));
-		}
-		wBtnSettings->setVisible(!(is_building || is_siding || dInfo.isInDuel || open_file));
+		}*/
+		//wBtnSettings->setVisible(!(is_building || is_siding || dInfo.isInDuel || open_file));
 		EnableMaterial2D(true);
 		DrawGUI();
 		DrawSpec();
@@ -2296,15 +2296,16 @@ bool Game::MainLoop() {
 		int fpsLimit = gGameConfig->maxFPS;
 		if(gGameConfig->maxFPS > 0 && !gGameConfig->vsync) {
 #endif
-			int64_t delta = std::round(fps * (1000.0f / fpsLimit) - cur_time);
+			// No need to limit fps
+			/*int64_t delta = std::round(fps * (1000.0f / fpsLimit) - cur_time);
 			if(delta > 0) {
 				int64_t t = timer->getRealTime();
 				while((timer->getRealTime() - t) < delta) {
 					epro::this_thread::sleep_for(std::chrono::milliseconds(1));
 				}
-			}
+			}*/
 		}
-		while(cur_time >= 1000) {
+		/*while (cur_time >= 1000) {
 			fpsCounter->setText(epro::format(gDataManager->GetSysString(1444), fps).data());
 			fps = 0;
 			cur_time -= 1000;
@@ -2313,7 +2314,7 @@ bool Game::MainLoop() {
 					dInfo.time_left[dInfo.time_player]--;
 		}
 		if(gGameConfig->maxFPS != -1)
-			epro::this_thread::sleep_for(std::chrono::milliseconds(1));
+			epro::this_thread::sleep_for(std::chrono::milliseconds(1));*/
 	}
 	discord.UpdatePresence(DiscordWrapper::TERMINATE);
 	{

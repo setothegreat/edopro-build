@@ -13,7 +13,8 @@ enum LAUNCH_PARAM {
 	WANTS_TO_RUN_AS_ADMIN,
 	REPOS_READ_ONLY,
 	ONLY_CLONE_REPOS,
-	COUNT,
+	PORT,
+	COUNT, // this needs to be last
 };
 
 

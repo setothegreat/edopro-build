@@ -37,11 +37,36 @@ ygo::ClientUpdater* ygo::gClientUpdater = nullptr;
 JWrapper* gJWrapper = nullptr;
 
 namespace {
+inline void TriggerEvent(irr::gui::IGUIElement* target, irr::gui::EGUI_EVENT_TYPE type) {
+	irr::SEvent event;
+	event.EventType = irr::EET_GUI_EVENT;
+	event.GUIEvent.EventType = type;
+	event.GUIEvent.Caller = target;
+	ygo::mainGame->device->postEventFromUser(event);
+}
+
+inline void ClickButton(irr::gui::IGUIElement* btn) {
+	TriggerEvent(btn, irr::gui::EGET_BUTTON_CLICKED);
+}
+
+inline void SetCheckbox(irr::gui::IGUICheckBox* chk, bool state) {
+	chk->setChecked(state);
+	TriggerEvent(chk, irr::gui::EGET_CHECKBOX_CHANGED);
+}
+
 void CheckArguments(const args_t& args) {
 	if(args[LAUNCH_PARAM::MUTE].enabled) {
 		ygo::GUIUtils::SetCheckbox(ygo::mainGame->device, ygo::mainGame->tabSettings.chkEnableSound, false);
 		ygo::GUIUtils::SetCheckbox(ygo::mainGame->device, ygo::mainGame->tabSettings.chkEnableMusic, false);
 	}
+
+	if (args[LAUNCH_PARAM::PORT].enabled) {
+		int port = std::stoi(ygo::Utils::ToUTF8IfNeeded(args[LAUNCH_PARAM::PORT].argument));
+		ygo::mainGame->ebHostPort->setText(fmt::to_wstring(port).data());
+		uint16_t host_port = static_cast<uint16_t>(std::stoul(ygo::mainGame->ebHostPort->getText()));
+	}
+
+	ClickButton(ygo::mainGame->btnLanMode);
 }
 
 inline void ThreadsStartup() {

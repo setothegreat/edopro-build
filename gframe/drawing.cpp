@@ -37,6 +37,7 @@ void Game::DrawSelectionLine(const Materials::QuadVertex vec, bool strip, int wi
 	}
 }
 void Game::DrawBackGround() {
+	return;
 	static float selFieldAlpha = 255;
 	static float selFieldDAlpha = -10;
 	//draw field spell card
@@ -325,6 +326,7 @@ void Game::DrawLinkedZones(ClientCard* pcard) {
 	}
 }
 void Game::DrawCards() {
+	return;
 	for(auto& pcard : dField.overlay_cards)
 		DrawCard(pcard);
 	for(int p = 0; p < 2; ++p) {
@@ -445,6 +447,7 @@ ForceInline void DrawShadowText(irr::gui::CGUITTFont* font, const T& text, const
 	DrawShadowTextPos(font, text, shadowposition, position, std::forward<Args>(args)...);
 }
 void Game::DrawMisc() {
+	return;
 	const float twoPI = 2.0f * irr::core::PI;
 	static float act_rot = 0.0f;
 	//pre expanded version of setRotationRadians, we're only setting the z value, saves computations
@@ -761,6 +764,7 @@ void Game::DrawStackIndicator(epro::wstringview text, const Materials::QuadVerte
 				   Resize(0, 1, 0, 1), skin::DUELFIELD_STACK_VAL, 0xff000000);
 }
 void Game::DrawGUI() {
+	return;
 	if(imageLoading.size()) {
 		for(auto mit = imageLoading.begin(); mit != imageLoading.end();) {
 			int check = 0;
@@ -869,6 +873,7 @@ void Game::DrawGUI() {
 	env->drawAll();
 }
 void Game::DrawSpec() {
+	return;
 	const auto drawrect2 = ResizeWin(574, 150, 574 + CARD_IMG_WIDTH, 150 + CARD_IMG_HEIGHT);
 	if(showcard) {
 		switch(showcard) {
@@ -1047,6 +1052,7 @@ void Game::DrawSpec() {
 	}
 }
 void Game::DrawBackImage(irr::video::ITexture* texture, bool resized) {
+	return;
 	static irr::video::ITexture* prevbg = nullptr;
 	static irr::core::recti dest_size = { 0,0,0,0 };
 	static irr::core::recti bg_size = { 0,0,0,0 };

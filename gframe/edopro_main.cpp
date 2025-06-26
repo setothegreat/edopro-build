@@ -33,6 +33,7 @@ auto GetOption(epro::path_stringview option) {
 		case EPRO_TEXT('u'): return LAUNCH_PARAM::OVERRIDE_UPDATE_URL;
 		case EPRO_TEXT('r'): return LAUNCH_PARAM::REPOS_READ_ONLY;
 		case EPRO_TEXT('c'): return LAUNCH_PARAM::ONLY_CLONE_REPOS;
+		case EPRO_TEXT('p'): return LAUNCH_PARAM::PORT;
 		default: return LAUNCH_PARAM::COUNT;
 		}
 	}
@@ -59,6 +60,13 @@ auto ParseArguments(int argc, epro::path_char* argv[]) {
 					i++;
 				}
 			}
+
+			// if (launch_param == LAUNCH_PARAM::PORT)
+			// {
+			// 		port = std::stoi(ygo::Utils::ToUTF8IfNeeded(argument));
+			// 		continue;
+			// }
+			
 			res[launch_param] = {true,  argument};
 			continue;
 		}
