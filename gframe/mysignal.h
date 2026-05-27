@@ -13,12 +13,14 @@ public:
 		val.notify_all();
 	}
 	void Wait() {
+		return;
 		if(_nowait)
 			return;
 		std::unique_lock<epro::mutex> lk(mut);
 		val.wait(lk);
 	}
 	void Wait(std::unique_lock<epro::mutex>& _Lck) {
+		return;
 		if(_nowait)
 			return;
 		val.wait(_Lck);

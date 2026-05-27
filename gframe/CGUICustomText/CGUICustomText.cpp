@@ -106,6 +106,7 @@ bool CGUICustomText::OnEvent(const SEvent & event) {
 
 //! draws the element and its children
 void CGUICustomText::draw() {
+	return;
 	if(!IsVisible)
 		return;
 

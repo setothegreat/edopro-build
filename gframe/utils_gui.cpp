@@ -123,6 +123,9 @@ std::shared_ptr<irr::IrrlichtDevice> GUIUtils::CreateDevice(GameConfig* configs)
 	else
 		params.DriverType = configs->driver_type;
 	irr::IrrlichtDevice* device = irr::createDeviceEx(params);
+	// Close the device to speed up?
+	device->closeDevice();
+
 	if(!device)
 		throw std::runtime_error("Failed to create Irrlicht Engine device!");
 	const auto driver = device->getVideoDriver();

@@ -1958,6 +1958,7 @@ irr::core::vector3df getUpVector() {
 static const auto defaultProjection = BuildProjectionMatrix(CAMERA_LEFT, CAMERA_RIGHT);
 
 bool Game::MainLoop() {
+	/*
 	irr::core::matrix4 mProjection;
 	camera = smgr->addCameraSceneNode(0);
 	auto UpdateAspectRatio = [this]() {
@@ -2017,9 +2018,10 @@ bool Game::MainLoop() {
 		bool currentlyFullscreen = false;
 		GUIUtils::ToggleFullscreen(device, currentlyFullscreen);
 	}
+	*/
 	while(!restart){// && device->run()) {
-		DispatchQueue();
-		if(should_reload_skin) {
+		//DispatchQueue();
+		/*if (should_reload_skin) {
 			should_reload_skin = false;
 			if(Utils::ToPathString(gSettings.cbCurrentSkin->getItem(gSettings.cbCurrentSkin->getSelected())) != gGameConfig->skin) {
 				gGameConfig->skin = Utils::ToPathString(gSettings.cbCurrentSkin->getItem(gSettings.cbCurrentSkin->getSelected()));
@@ -2028,35 +2030,38 @@ bool Game::MainLoop() {
 				ApplySkin(EPRO_TEXT(""), true);
 			}
 		}
-		ParseGithubRepositories(gRepoManager->GetReadyRepos());
-		if(ServerLobby::HasRefreshedRooms())
-			ServerLobby::FillOnlineRooms();
+		*/
+		//ParseGithubRepositories(gRepoManager->GetReadyRepos());
+		//if(ServerLobby::HasRefreshedRooms())
+		//	ServerLobby::FillOnlineRooms();
 #ifdef YGOPRO_BUILD_DLL
 		if(!dInfo.isStarted) {
 			LoadCoreFromRepos();
 		}
-#endif //YGOPRO_BUILD_DLL
+#endif YGOPRO_BUILD_DLL
 		/*for (auto& repo : gRepoManager->GetRepoStatus()) {
 			repoInfoGui[repo.first].progress1->setProgress(repo.second);
 			repoInfoGui[repo.first].progress2->setProgress(repo.second);
 		}*/
 		//gSoundManager->Tick();
-		fps++;
+		//fps++;
 		//auto now = timer->getRealTime();
 		//delta_time = now - prev_time;
 		//prev_time = now;
 		//cur_time += delta_time;
-		gJWrapper->ProcessEvents();
+		//gJWrapper->ProcessEvents();
+		/*
 		bool resized = false;
 		auto size = driver->getScreenSize();
 #if EDOPRO_LINUX
 		prev_window_size = std::exchange(window_size, size);
 		if(prev_window_size != window_size && !last_resize && prev_window_size.Width != 0 && prev_window_size.Height != 0) {
 			last_resize = true;
-		} else if((prev_window_size == window_size && last_resize) || (prev_window_size.Width == 0 && prev_window_size.Height == 0)) {
+		}
+		else if ((prev_window_size == window_size && last_resize) || (prev_window_size.Width == 0 && prev_window_size.Height == 0)) {
 			last_resize = false;
 #else
-		if(window_size != size) {
+		if (window_size != size) {
 #endif
 			resized = true;
 			window_size = size;
@@ -2067,9 +2072,10 @@ bool Game::MainLoop() {
 			should_refresh_hands = true;
 			OnResize();
 		}
+		
 #ifdef YGOPRO_BUILD_DLL
-		if(coreJustLoaded) {
-			if(stMessage->getText() == gDataManager->GetSysString(1430))
+		if (coreJustLoaded) {
+			if (stMessage->getText() == gDataManager->GetSysString(1430))
 				HideElement(wMessage);
 			RefreshUICoreVersion();
 			env->setFocus(stACMessage);
@@ -2077,7 +2083,9 @@ bool Game::MainLoop() {
 			PopupElement(wACMessage, 30);
 			coreJustLoaded = false;
 		}
-#endif //YGOPRO_BUILD_DLL
+#endif YGOPRO_BUILD_DLL
+		*/
+		/*
 		frame_counter += (float)delta_time * 60.0f/1000.0f;
 		float remainder;
 		frame_counter = std::modf(frame_counter, &remainder);
@@ -2168,7 +2176,7 @@ bool Game::MainLoop() {
 			fpsCounter->setRelativePosition(Resize(1020 - fpsCounterWidth, 595, 1020, 615));
 		} else { // bottom right of window with a little padding
 			fpsCounter->setRelativePosition(Resize(1024 - fpsCounterWidth, 620, 1024, 640));
-		}*/
+		}
 		//wBtnSettings->setVisible(!(is_building || is_siding || dInfo.isInDuel || open_file));
 		EnableMaterial2D(true);
 		DrawGUI();
@@ -2195,12 +2203,14 @@ bool Game::MainLoop() {
 		}
 		driver->endScene();
 		gMutex.unlock();
-		if(closeDuelWindow)
+		*/
+		/*if (closeDuelWindow)
 			CloseDuelWindow();
 		if (DuelClient::try_needed) {
 			DuelClient::try_needed = false;
 			DuelClient::StartClient(DuelClient::temp_ip, DuelClient::temp_port, dInfo.secret.game_id, false);
-		}
+		}*/
+		/*
 		{
 			std::lock_guard<epro::mutex> lk(popupCheck);
 			if(queued_msg.size()) {
@@ -2303,7 +2313,7 @@ bool Game::MainLoop() {
 				while((timer->getRealTime() - t) < delta) {
 					epro::this_thread::sleep_for(std::chrono::milliseconds(1));
 				}
-			}*/
+			}
 		}
 		/*while (cur_time >= 1000) {
 			fpsCounter->setText(epro::format(gDataManager->GetSysString(1444), fps).data());
@@ -2314,16 +2324,18 @@ bool Game::MainLoop() {
 					dInfo.time_left[dInfo.time_player]--;
 		}
 		if(gGameConfig->maxFPS != -1)
-			epro::this_thread::sleep_for(std::chrono::milliseconds(1));*/
+			epro::this_thread::sleep_for(std::chrono::milliseconds(1));
+			*/
 	}
-	discord.UpdatePresence(DiscordWrapper::TERMINATE);
-	{
+	//discord.UpdatePresence(DiscordWrapper::TERMINATE);
+	
+	/*{
 		std::lock_guard<epro::mutex> lk(gMutex);
 		replaySignal.SetNoWait(true);
 		actionSignal.SetNoWait(true);
 		closeDoneSignal.SetNoWait(true);
 		frameSignal.SetNoWait(true);
-	}
+	}*/
 	DuelClient::StopClient(true);
 	//This is set again as waitable in the above call
 	frameSignal.SetNoWait(true);
@@ -2333,8 +2345,8 @@ bool Game::MainLoop() {
 	SaveConfig();
 #ifdef YGOPRO_BUILD_DLL
 	UnloadCore(ocgcore);
-#endif //YGOPRO_BUILD_DLL
-	//device->drop();
+#endif YGOPRO_BUILD_DLL
+	device->drop();
 	return restart;
 }
 bool Game::ApplySkin(const epro::path_string& skinname, bool reload, bool firstrun) {

@@ -140,7 +140,7 @@ bool DuelClient::StartClient(const epro::Address& ip, uint16_t port, uint32_t ga
 	mainGame->frameSignal.SetNoWait(true);
 	if(client_thread.joinable())
 		client_thread.join();
-	mainGame->frameSignal.SetNoWait(false);
+	mainGame->frameSignal.SetNoWait(true);
 	stop_threads = false;
 	parsing_thread = epro::thread(ParserThread);
 	client_thread = epro::thread(ClientThread);
@@ -187,7 +187,7 @@ void DuelClient::StopClient(bool is_exiting) {
 	}
 	if(client_thread.joinable())
 		client_thread.join();
-	mainGame->frameSignal.SetNoWait(false);
+	mainGame->frameSignal.SetNoWait(true);
 }
 void DuelClient::ClientRead(bufferevent* bev, [[maybe_unused]] void* ctx) {
 	evbuffer* input = bufferevent_get_input(bev);

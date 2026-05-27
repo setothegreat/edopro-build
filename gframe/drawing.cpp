@@ -1092,6 +1092,7 @@ void Game::DrawBackImage(irr::video::ITexture* texture, bool resized) {
 		driver->draw2DImage(texture, dest_size, bg_size);
 }
 void Game::ShowElement(irr::gui::IGUIElement * win, int autoframe) {
+	return;
 	FadingUnit fu;
 	fu.fadingSize = win->getRelativePosition();
 	fu.wasEnabled = win->isEnabled();
@@ -1182,6 +1183,7 @@ void Game::PopupElement(irr::gui::IGUIElement * element, int hideframe) {
 	else ShowElement(element, hideframe);
 }
 void Game::WaitFrameSignal(int frame, std::unique_lock<epro::mutex>& _lck) {
+	return;
 	signalFrame = (gGameConfig->quick_animation && frame >= 12) ? 12 * 1000 / 60 : frame * 1000 / 60;
 	frameSignal.Wait(_lck);
 }
